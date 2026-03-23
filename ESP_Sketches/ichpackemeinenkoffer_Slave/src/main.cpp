@@ -15,7 +15,7 @@ enum Status { WARTEN, ZEIGEN, WIEDERHOLEN, ERWEITERN, GAMEOVER };
 Status aktuellerStatus = WARTEN; 
 int wiederholSchritt = 0;
 
-uint8_t zielAdresse[] = {0x80, 0xF3, 0xDA, 0x55, 0x48, 0xA8};
+uint8_t zielAdresse[] = {0x48, 0xE7, 0x29, 0x95, 0x9A, 0x7C};
 
 void displayText(String t1, String t2 = "") {
   display.clearDisplay();
@@ -44,7 +44,7 @@ void zeigeSequenz() {
 }
 
 // NEUE SIGNATUR FÜR ARDUINO IDE (V3.0+)
-void onDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
+void onDataRecv(const uint8_t * mac, const uint8_t *data, int len) {
   kofferIndex = len;
   memcpy(koffer, data, len);
   zeigeSequenz();
