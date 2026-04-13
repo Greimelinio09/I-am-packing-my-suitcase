@@ -3,8 +3,15 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <Adafruit_NeoPixel.h>
 
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
+
+#define PIN 32        //Spare_IO2
+#define NUMPIXELS 4
+
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRBW + NEO_KHZ800);
+
 
 uint8_t pins[] = {4, 0, 2, 15};
 const char* farben[] = {"ROT", "BLAU", "GRUEN", "GELB"};
@@ -56,6 +63,16 @@ void setup() {
   for(int i=0; i<4; i++) pinMode(pins[i], INPUT_PULLUP);
 
   if (esp_now_init() != ESP_OK) return;
+
+  pixels.begin();
+  pixels.clear();
+  
+  pixels.setPixelColor(3, pixels.Color(255, 0, 0));
+  pixels.setPixelColor(2, pixels.Color(0, 0, 255));
+  pixels.setPixelColor(1, pixels.Color(0, 255, 0));
+  pixels.setPixelColor(0, pixels.Color(255,255,0));
+  pixels.show();
+
 
   esp_now_peer_info_t peerInfo = {};
   memcpy(peerInfo.peer_addr, zielAdresse, 6);
