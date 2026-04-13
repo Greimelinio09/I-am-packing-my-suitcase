@@ -14,7 +14,7 @@ Adafruit_SSD1306 display(128, 64, &Wire, -1);
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRBW + NEO_KHZ800);
 
 
-uint8_t pins[] = {4, 0, 2, 15};
+uint8_t pins[] = {15, 2, 0, 4};
 const char* farben[] = {"ROT", "BLAU", "GRUEN", "GELB"};
 uint8_t koffer[100];
 uint8_t kofferIndex = 0;
