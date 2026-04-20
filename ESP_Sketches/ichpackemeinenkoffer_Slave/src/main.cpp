@@ -211,16 +211,14 @@ void loop() {
       }
     }
   } else if (aktuellerStatus == GAMEOVER) {
-    // allow winner to restart by pressing any button
-    if (amWinner) {
-      for (int i = 0; i < 4; i++) {
+    // allow any player to trigger a restart by pressing a button
+    for (int i = 0; i < 4; i++) {
+      if (digitalRead(pins[i]) == LOW) {
+        delay(50);
         if (digitalRead(pins[i]) == LOW) {
-          delay(50);
-          if (digitalRead(pins[i]) == LOW) {
-            esp_now_send(zielAdresse, &MSG_RESTART, 1);
-            doReset();
-            while(digitalRead(pins[i]) == LOW) delay(10);
-          }
+          esp_now_send(zielAdresse, &MSG_RESTART, 1);
+          doReset();
+          while(digitalRead(pins[i]) == LOW) delay(10);
         }
       }
     }
