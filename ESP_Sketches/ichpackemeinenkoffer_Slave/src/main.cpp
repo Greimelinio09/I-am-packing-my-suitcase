@@ -14,7 +14,7 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRBW + NEO_KHZ800);
 
 
 uint8_t pins[] = {4, 0, 2, 15};
-const char* farben[] = {"ROT", "BLAU", "GRUEN", "GELB"};
+const char* farben[] = {"RED", "BLUE", "GREEN", "YELLOW"};
 uint8_t koffer[100];
 uint8_t kofferIndex = 0;
 
@@ -70,7 +70,7 @@ void doReset() {
   currentColor = -1;
   setStaticColors();
   pixels.show();
-  displayText("NEUSTART", "Eins dazu packen!");
+  displayText("RESTART", "ADD ONE!");
 }
 
 void displayText(String t1, String t2) {
@@ -100,7 +100,7 @@ void zeigeSequenz() {
   pixels.show();
   wiederholSchritt = 0;
   aktuellerStatus = WIEDERHOLEN;
-  displayText("DEIN ZUG", "Wiederhole alles!");
+  displayText("YOUR TURN", "REPEAT EVERYTHING!");
 }
 
 // NEUE SIGNATUR FÜR ARDUINO IDE (V3.0+)
@@ -112,7 +112,7 @@ void onDataRecv(const uint8_t * mac, const uint8_t *data, int len) {
       currentColor = -1;
       setStaticColors();
       pixels.show();
-      displayText("SIEGER!", "Warte auf Master Reset");
+      displayText("WINNER!", "WAIT FOR MASTER TO RESTART!");
       return;
     }
     if (data[0] == MSG_RESTART) {
@@ -145,7 +145,7 @@ void setup() {
   esp_now_add_peer(&peerInfo);
 
   esp_now_register_recv_cb(onDataRecv);
-  displayText("BEREIT", "Warte auf Master");
+  displayText("READY", "WAIT FOR MASTER");
 }
 
 void loop() {
@@ -184,13 +184,13 @@ void loop() {
             if (wiederholSchritt >= kofferIndex) {
               delay(500);
               aktuellerStatus = ERWEITERN;
-              displayText("GUT!", "Eins dazu packen!");
+              displayText("WELL DONE!", "ADD ONE");
             }
           } else {
             aktuellerStatus = GAMEOVER;
             // inform peer that they won
             esp_now_send(zielAdresse, &MSG_WIN, 1);
-            displayText("FALSCH!", "VERLOREN!");
+            displayText("FALSE!", "DEFEAT!");
             while(digitalRead(pins[i]) == LOW) delay(10);
           }
         }
@@ -205,7 +205,7 @@ void loop() {
           koffer[kofferIndex++] = i;
           esp_now_send(zielAdresse, koffer, kofferIndex);
           aktuellerStatus = WARTEN;
-          displayText("SENDEN..", "Warte auf Gegner");
+          displayText("SEND..", "WAIT FOR OPONENT");
           while(digitalRead(pins[i]) == LOW) delay(10);
         }
       }
