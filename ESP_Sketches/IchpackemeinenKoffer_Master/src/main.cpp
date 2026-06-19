@@ -6,6 +6,9 @@
 #include <Arduino.h>
 #include <Adafruit_NeoPixel.h>
 
+//The yellow Wire is GND 
+//The white Wire is VCC
+
 Adafruit_SSD1306 display(128, 64, &Wire, -1);
 
 #define PIN 32        //Spare_IO2
